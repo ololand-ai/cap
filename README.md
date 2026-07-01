@@ -1,9 +1,22 @@
-# claude-platform
+# cap
 
-A thin CLI over the Anthropic `AnthropicAWS` SDK to manage a Claude Platform on AWS
-workspace (agents, sessions, …) from any directory. The official `ant` CLI cannot
-reach the AWS variant (no SigV4, no `anthropic-workspace-id` header); the SDK can,
-and this wraps it.
+[![CI](https://github.com/ololand-ai/cap/actions/workflows/ci.yml/badge.svg)](https://github.com/ololand-ai/cap/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+A CLI for a Claude Platform workspace hosted on AWS — the resource layer (agents,
+sessions, environments, vaults, memory-stores, skills, deployments, files) that the
+official `ant` CLI can't reach, since that variant needs SigV4 auth + an
+`anthropic-workspace-id` header instead of a bearer token. `cap` wraps the
+`anthropic.AnthropicAWS` SDK client so you get normal `list` / `get` / `update`
+verbs instead of hand-rolling client calls in a REPL for every lookup.
+
+    $ cap agents list
+    $ cap --json agents get agent_01...
+    $ cap skills update skill_01... ./my-skill            # publish a new skill version
+    $ cap workspace export ./snapshot --push me/backup    # snapshot the whole workspace to git
+
+See below for setup, the full command surface, and what's deliberately *not* here —
+the data plane (sending messages, streaming) stays in the SDK, not the CLI.
 
 ## Scope: control plane, not data plane
 
