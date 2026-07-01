@@ -1,0 +1,21 @@
+[project]
+name = "claude-platform"
+version = "0.1.0"
+description = "CLI to manage a Claude Platform on AWS workspace via the Anthropic SDK"
+requires-python = ">=3.11"
+# anthropic[aws] pulls boto3/botocore, required for AnthropicAWS SigV4 signing.
+dependencies = ["anthropic[aws]>=0.111", "typer>=0.12", "rich>=13"]
+
+[project.scripts]
+claude-platform = "claude_platform.cli:app"
+cap = "claude_platform.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/claude_platform"]
+
+[dependency-groups]
+dev = ["pytest>=8"]
